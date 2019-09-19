@@ -12,10 +12,12 @@ import os
 import functools
 import sys
 
-#minimum_version = (3, 2)
-#assert sys.version_info >= minimum_version, "You must use Python >= {}.{}".format(*minimum_version)
+# The exist_ok option for os.makedirs appeared in Python 3.2
+minimum_version = (3, 2)
 
-def create_new_package(ref_folder, package_name, package_tag, overwrite=True):
+assert sys.version_info >= minimum_version, "You must use Python >= {}.{}".format(*minimum_version)
+
+def create_new_package(ref_folder, package_name, package_tag):
     """
     Copy directory recursively to create a new package from the model package
 
@@ -27,8 +29,7 @@ def create_new_package(ref_folder, package_name, package_tag, overwrite=True):
     dest_folder = "generated"
 
     # remove destination folder if exists.
-    # If not, will add info to the existing directory
-    if overwrite and os.path.isdir(dest_folder):
+    if os.path.isdir(dest_folder):
         shutil.rmtree(dest_folder)
 
     # Create partial function that only take src and dst for arguments
@@ -52,8 +53,6 @@ def create_new_package(ref_folder, package_name, package_tag, overwrite=True):
 
             custom_copy(fpath, dst_fpath)
 
-    #shutil.copytree(ref_folder, dest_folder, copy_function=custom_copy, ignore=shutil.ignore_patterns())
-
 
 def copy_with_replace(src, dst, str1, str2, merge=False):
     """
@@ -65,7 +64,7 @@ def copy_with_replace(src, dst, str1, str2, merge=False):
     :param dst: destination file
     :param str1: string to be searched for
     :param str2: replacement string
-    :param bool merge: If True, will append first file to
+    :param bool merge: If True, will append first file to the existing one
     :return:
     """
 
@@ -84,16 +83,6 @@ def copy_with_replace(src, dst, str1, str2, merge=False):
         obj.write(s)
 
 
-
-def combine_files(original_file, add_on_file):
-    """
-    When adding a plugin, if a file already exist, will merge both codes (plugin one added at the end of the original)
-
-    :param str original_file:
-    :param str add_on_file:
-    :return:
-    """
-
 def add_plugin(plugin_folder, package_name):
     """
     Add necessary files to add an .ini file reader into the future package
@@ -108,7 +97,7 @@ def add_plugin(plugin_folder, package_name):
     dest_folder = "generated"
 
     # Create partial function that only take src and dst for arguments
-    custom_copy = functools.partial(copy_with_replace, str1=package_tag, str2=package_name)
+    custom_copy = functools.partial(copy_with_replace, str1=package_tag, str2=package_name, merge=True)
 
     for root, dirs, files in os.walk(plugin_folder):
         # Create empty dirs
@@ -126,14 +115,27 @@ def add_plugin(plugin_folder, package_name):
             dst_fpath = fpath.replace(plugin_folder, dest_folder)
             dst_fpath = dst_fpath.replace(package_tag, package_name)
 
-
-
             custom_copy(fpath, dst_fpath)
 
 
 
 reference_folder = "model_package"
 package_tag = "<my_package>"  # String to be searched and replace by the future package name
+valid_characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", \
+                   "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"]
 
-create_new_package(ref_folder=reference_folder, package_name="toto", package_tag=package_tag)
+parser = argparse.ArgumentParser()
+parser.add_argument("-n", "--name", help="Name of the future package (lowercase)", type=str, required=True)
+parser.add_argument("-i", "--ini", help="Add the ini_file plugin for configuration file into the package", action='store_true')
+args = parser.parse_args()
 
+# Force lower case
+package_name = args.name.lower()
+
+if not all(c in valid_characters for c in package_name):
+    raise ValueError("Valid characters for package name are: {}".format("".join(valid_characters)))
+
+create_new_package(ref_folder=reference_folder, package_name=package_name, package_tag=package_tag)
+
+if args.ini:
+    add_plugin(plugin_folder="ini_file_plugin", package_name=package_name)
