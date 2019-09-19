@@ -2,7 +2,10 @@ import pkg_resources
 import configobj
 import validate
 import sys
+import os
+import logging
 
+LOG = logging.getLogger(__name__)
 
 def get_nested(data, args):
     """

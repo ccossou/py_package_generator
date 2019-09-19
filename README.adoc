@@ -15,11 +15,19 @@ The folder *model_package* contain a generic structure for a Python package, wit
 === Model Package
 Each time the package name must be, a generic tag *<my_package>* must be in its place. During package creation, this tag will be replaced with the name chosen for the package.
 
+.The package is designed for:
+* Unit test with *pytest*
+* CI with *gitlab-ci*
+* readme with *asciidoc*
+* Python 3 only
+* logs with *logging*
+* [optional] configuration file with *configobj*
+
+
 === Plugin
 Plugin are available. They are extra lines of code only needed when you want a specific feature. For now, only the *ini_file_plugin* is available. It provides functions to read and validate a configuration file (as an .ini file)
 
 As some might not want it, this is optional (flag --ini for the creation script).
-
 
 == How to use
 
@@ -36,6 +44,22 @@ For help on the script, type:
 ----
 ./generate_package_structure.py -h
 ----
+
+== Plugins
+=== ini file: `--ini`
+If chosen, will add *<my_package>/config.py* that contain the *get_config* function.
+
+This function is intended for developpers and not supposed to be used outside of the package. It's main use is to have a reliable validation function that describe what's going wrong with the configuration file.
+
+Use it like this:
+[source, python]
+----
+from . import config
+
+params = config.get_config('my_inifile.ini')
+----
+
+IMPORTANT: Note that the file *<my_package>/configspec.ini* contain the description for your configuration file and *MUST* be changed.
 
 == How to add files in the model structure ?
 
