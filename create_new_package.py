@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
 Using a model package and the name of your future package, will create a minimal package structure to be used
 
@@ -15,17 +16,23 @@ import sys
 # The exist_ok option for os.makedirs appeared in Python 3.2
 minimum_version = (3, 2)
 
-assert sys.version_info >= minimum_version, "You must use Python >= {}.{}".format(*minimum_version)
+reference_folder = "model_package"
+package_tag = "<my_package>"  # String to be searched and replace by the future package name
+valid_characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"]
+
 
 def create_new_package(ref_folder, package_name, package_tag):
     """
     Copy directory recursively to create a new package from the model package
 
     :param str ref_folder: Name of the reference folder to copy data from
-    :param str dest_folder: Name of destination folder
-    :return:
+    :param str package_name: Name of the future package
+    :param str package_tag: Generic and identifiable string to be search in the model directory/file.
+    "<my_package>" is expected by default
     """
 
+    # Directory were the generated package is stored
     dest_folder = "generated"
 
     # remove destination folder if exists.
@@ -89,8 +96,8 @@ def add_plugin(plugin_folder, package_name):
 
     A plugin folder must have the same structure as the original package
 
-    :param str ref_folder:
-    :param str package_name:
+    :param str plugin_folder: Name of the folder where the plugin files are in
+    :param str package_name: Name of the generated package to modify
     :return:
     """
 
@@ -118,16 +125,13 @@ def add_plugin(plugin_folder, package_name):
             custom_copy(fpath, dst_fpath)
 
 
-
-reference_folder = "model_package"
-package_tag = "<my_package>"  # String to be searched and replace by the future package name
-valid_characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", \
-                   "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"]
-
 parser = argparse.ArgumentParser()
 parser.add_argument("-n", "--name", help="Name of the future package (lowercase)", type=str, required=True)
-parser.add_argument("-i", "--ini", help="Add the ini_file plugin for configuration file into the package", action='store_true')
+parser.add_argument("-i", "--ini", help="Add the ini_file plugin for configuration file into the package",
+                    action='store_true')
 args = parser.parse_args()
+
+assert sys.version_info >= minimum_version, "You must use Python >= {}.{}".format(*minimum_version)
 
 # Force lower case
 package_name = args.name.lower()
