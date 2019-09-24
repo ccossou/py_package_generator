@@ -19,7 +19,32 @@ The folder *model_package* contain a generic structure for a Python package, wit
 * CI with *gitlab-ci*
 * readme with *asciidoc*
 * Python 3 only
-* logs with *logging*
+* logs with *logging*.
+** Each Python file in the package structure must have:
++
+[source, python]
+----
+import logging
+LOG = logging.getLogger(__name__)
+----
++
+** You must use this when printing something (error, warning, info, debug):
++
+[source, python]
+----
+LOG.debug("Here is some info")
+----
++
+** At the start of your main function, you must do:
++
+[source, python]
+----
+from . import utils
+utils.init_log(log="<my_package>.log", stdout_loglevel="INFO", file_loglevel="DEBUG")
+----
++
+to ensure logging properly works
+
 * [optional] configuration file with *configobj*
 
 == How to use
@@ -51,7 +76,7 @@ To include this plugin, add the option `--ini` to the command line:
 
 If chosen, will add *<my_package>/config.py* that contain the *get_config* function.
 
-This function is intended for developpers and not supposed to be used outside of the package. It's main use is to have a reliable validation function that describe what's going wrong with the configuration file.
+NOTE: This function is intended for developpers and not supposed to be used outside of the package. It's main use is to have a reliable validation function that describe what's going wrong with the configuration file.
 
 Use it like this:
 [source, python]
@@ -70,6 +95,14 @@ Files in the *model_package* will be copied into your future package, keeping th
 .Generic rules:
 * Each file must end with a blanck line (mainly because of plugins, to avoid that the first line of a plugin file to be added to the last line of the original file)
 * Each time the package name must be present (either for a file/folder name, or inside the file itself), a generic tag *<my_package>* must be in its place. During package creation, this tag will be replaced with the name chosen for the package.
+* Each new Python file in the package must start with the following lines:
++
+[source, python]
+----
+import logging
+LOG = logging.getLogger(__name__)
+----
++
 
 === For plugins
 Plugin folder must respect the same structure as the main *model_package*.
