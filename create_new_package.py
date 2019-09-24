@@ -19,7 +19,8 @@ minimum_version = (3, 2)
 reference_folder = "model_package"
 package_tag = "<my_package>"  # String to be searched and replace by the future package name
 valid_characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-                    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"]
+                    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_",
+                    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 
 def create_new_package(ref_folder, package_name, package_tag):
@@ -136,8 +137,13 @@ assert sys.version_info >= minimum_version, "You must use Python >= {}.{}".forma
 # Force lower case
 package_name = args.name.lower()
 
+# Check if all characters are valid
 if not all(c in valid_characters for c in package_name):
     raise ValueError("Valid characters for package name are: {}".format("".join(valid_characters)))
+
+# Check if first character is valid
+if not package_name[0].isalpha():
+    raise ValueError("First character of package name ('{}') needs to be a letter".format(package_name))
 
 create_new_package(ref_folder=reference_folder, package_name=package_name, package_tag=package_tag)
 
