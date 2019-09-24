@@ -12,8 +12,7 @@
 == Introduction
 The folder *model_package* contain a generic structure for a Python package, with *setup.py* and everything needed for a basic package.
 
-=== Model Package
-Each time the package name must be, a generic tag *<my_package>* must be in its place. During package creation, this tag will be replaced with the name chosen for the package.
+=== Model Package info
 
 .The package is designed for:
 * Unit test with *pytest*
@@ -23,18 +22,12 @@ Each time the package name must be, a generic tag *<my_package>* must be in its 
 * logs with *logging*
 * [optional] configuration file with *configobj*
 
-
-=== Plugin
-Plugin are available. They are extra lines of code only needed when you want a specific feature. For now, only the *ini_file_plugin* is available. It provides functions to read and validate a configuration file (as an .ini file)
-
-As some might not want it, this is optional (flag --ini for the creation script).
-
 == How to use
 
 Just run the script in its directory:
 [source, bash]
 ----
-./generate_package_structure.py --name "toto"
+./create_new_package.py --name "toto"
 ----
 
 The package will appear in a *generated* folder. Copy paste everything in it where you want to put your package (in a new Git repository for instance)
@@ -42,11 +35,20 @@ The package will appear in a *generated* folder. Copy paste everything in it whe
 For help on the script, type:
 [source, bash]
 ----
-./generate_package_structure.py -h
+./create_new_package.py -h
 ----
 
-== Plugins
+[[plugin_list]]
+== List of Plugins available
+Plugins are available. They are extra lines of code only needed when you want a specific feature.
+
 === ini file: `--ini`
+To include this plugin, add the option `--ini` to the command line:
+[source, bash]
+----
+./create_new_package.py --name blabla --ini
+----
+
 If chosen, will add *<my_package>/config.py* that contain the *get_config* function.
 
 This function is intended for developpers and not supposed to be used outside of the package. It's main use is to have a reliable validation function that describe what's going wrong with the configuration file.
@@ -61,15 +63,22 @@ params = config.get_config('my_inifile.ini')
 
 IMPORTANT: Note that the file *<my_package>/configspec.ini* contain the description for your configuration file and *MUST* be changed.
 
-== How to add files in the model structure ?
-
-Files in the *model_package* or any *plugin* folder must respect the same overall structure. I.e. for a plugin to add lines to an existing *<my_package>/utils.py* file, you must create the same file, in the same sub-folder, under the plugin structure, then add the extra lines you want to add.
+== How to make change to the model package ?
+=== Main Package
+Files in the *model_package* will be copied into your future package, keeping the same structure.
 
 .Generic rules:
 * Each file must end with a blanck line (mainly because of plugins, to avoid that the first line of a plugin file to be added to the last line of the original file)
+* Each time the package name must be present (either for a file/folder name, or inside the file itself), a generic tag *<my_package>* must be in its place. During package creation, this tag will be replaced with the name chosen for the package.
 
 === For plugins
 Plugin folder must respect the same structure as the main *model_package*.
+I.e. for a plugin to add lines to an existing *<my_package>/utils.py* file, you must create the same file, in the same
+sub-folder, under the plugin structure, then add the extra lines you want to add.
+
+When a file exist in both the model and the plugin, file content in the plugin will be appended in the original file.
+
+IMPORTANT: All files must end in a blanck line. If not, when trying to append, last line of first file and first line of second file will be mixed up in the same line
 
 For instance, here is one structure for *model_package*:
 [quote]
@@ -79,6 +88,8 @@ model_package/
 │   ├── __init__.py
 │   ├── utils.py
 │   └── version.py
+├── .gitignore
+├── .gitlab-ci.yml
 ├── README.adoc
 ├── requirements.txt
 └── setup.py
