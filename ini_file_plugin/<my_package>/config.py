@@ -7,6 +7,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+
 def get_nested(data, args):
     """
     Allow to get value in dictionnary tree
@@ -33,7 +34,6 @@ def get_nested(data, args):
 def get_config(filename):
     """
     Read then validate and convert the input file
-    BEWARE there must be a file named 'configspec.ini' in the directory of kiss
 
     :param str filename: .ini filename
 

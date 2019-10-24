@@ -3,6 +3,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+
 def assertListDictEqual(input_list, ref_list):
     """
     Assert if All the dicts in both lists are equal (comparing indexes to indexes)
@@ -27,9 +28,9 @@ def assertDictEqual(input_dict, dict_ref):
 
     """
 
-    (isEqual, msg) = compare_dict(input_dict, dict_ref)
+    (is_equal, msg) = compare_dict(input_dict, dict_ref)
 
-    assert isEqual, msg
+    assert is_equal, msg
 
 
 def compare_dict(input_dict, dict_ref, msg=None, prefix=None):
@@ -39,13 +40,13 @@ def compare_dict(input_dict, dict_ref, msg=None, prefix=None):
     :param dict input_dict: Input dictionary
     :param dict dict_ref: Reference dictionary
 
-    /!\ Warning: All other parameters are internal (for recursivity) and must NOT be used
+    Warning: All other parameters are internal (for recursivity) and must NOT be used
 
     :return: if dict are equal and error message associated with it
     :rtype: (bool, msg)
     """
 
-    isEqual = True
+    is_equal = True
 
     if not msg:
         msg = ""
@@ -59,21 +60,20 @@ def compare_dict(input_dict, dict_ref, msg=None, prefix=None):
         d1_prefix += prefix
         d2_prefix += prefix
 
-
     common_keys = keys1.intersection(keys2)
 
     # Keys present in keys1 not present in keys2
     new_keys1 = keys1.difference(keys2)
-    if (len(new_keys1) != 0):
-        isEqual = False
+    if len(new_keys1) != 0:
+        is_equal = False
         msg += "Keys exclusive to {}:\n".format(d1_prefix)
         for key in new_keys1:
             msg += "\t{}[{}] = {}\n".format(d1_prefix, key, input_dict[key])
 
     # Keys present in keys2 not present in keys1
     new_keys2 = keys2.difference(keys1)
-    if (len(new_keys2) != 0):
-        isEqual = False
+    if len(new_keys2) != 0:
+        is_equal = False
         msg += "Keys exclusive to {}:\n".format(d2_prefix)
         for key in new_keys2:
             msg += "\t{}[{}] = {}\n".format(d2_prefix, key, dict_ref[key])
@@ -86,16 +86,16 @@ def compare_dict(input_dict, dict_ref, msg=None, prefix=None):
             new_prefix += "[{}]".format(key)
             (value_equal, tmp_msg) = compare_dict(value1, value2, prefix=new_prefix)
             if not value_equal:
-                isEqual = False
+                is_equal = False
             msg += tmp_msg
         else:
             if value1 != value2:
-                isEqual = False
+                is_equal = False
                 msg += "Difference for:\n"
                 msg += "\t{}[{}] = {}\n".format(d1_prefix, key, value1)
                 msg += "\t{}[{}] = {}\n".format(d2_prefix, key, value2)
 
-    return (isEqual, msg)
+    return is_equal, msg
 
 
 def update_dict(d, u):
