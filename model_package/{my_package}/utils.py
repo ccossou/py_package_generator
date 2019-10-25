@@ -119,7 +119,7 @@ def update_dict(d, u):
     return d
 
 
-def init_log(log="<my_package>.log", stdout_loglevel="INFO", file_loglevel="DEBUG", extra_config=None):
+def init_log(log="{my_package}.log", stdout_loglevel="INFO", file_loglevel="DEBUG", extra_config=None):
     """
 
     :param str log: filename where to store logs. By default "pipeline.log"

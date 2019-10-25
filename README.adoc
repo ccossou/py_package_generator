@@ -40,7 +40,7 @@ LOG.debug("Here is some info")
 [source, python]
 ----
 from . import utils
-utils.init_log(log="<my_package>.log", stdout_loglevel="INFO", file_loglevel="DEBUG")
+utils.init_log(log={my_package}, stdout_loglevel="INFO", file_loglevel="DEBUG")
 ----
 +
 to ensure logging properly works

@@ -17,7 +17,7 @@ import sys
 minimum_version = (3, 2)
 
 reference_folder = "model_package"
-package_tag = "<my_package>"  # String to be searched and replace by the future package name
+package_tag = "{my_package}"  # String to be searched and replace by the future package name
 valid_characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                     "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_",
                     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -30,7 +30,7 @@ def create_new_package(ref_folder, package_name, package_tag):
     :param str ref_folder: Name of the reference folder to copy data from
     :param str package_name: Name of the future package
     :param str package_tag: Generic and identifiable string to be search in the model directory/file.
-    "<my_package>" is expected by default
+    "{my_package}" is expected by default
     """
 
     # Directory were the generated package is stored

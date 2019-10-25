@@ -46,7 +46,7 @@ def get_config(filename):
 
     # Prepare to convert values in the config file
     val = validate.Validator()
-    specfile = pkg_resources.resource_filename('<my_package>', 'configspec.ini')
+    specfile = pkg_resources.resource_filename('{my_package}', 'configspec.ini')
     configspec = configobj.ConfigObj(specfile, list_values=False)
 
     config = configobj.ConfigObj(filename, configspec=configspec, raise_errors=True)

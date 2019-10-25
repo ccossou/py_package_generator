@@ -29,8 +29,8 @@ def find_version(*file_paths):
 
 
 setup(
-    name="<my_package>",
-    version=find_version("<my_package>", "version.py"),
+    name="{my_package}",
+    version=find_version("{my_package}", "version.py"),
     description="",
     url="",
     author="",
