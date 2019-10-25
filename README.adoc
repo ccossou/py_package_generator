@@ -88,6 +88,21 @@ params = config.get_config('my_inifile.ini')
 
 IMPORTANT: Note that the file *<my_package>/configspec.ini* contain the description for your configuration file and *MUST* be changed.
 
+=== GUI: `--gui`
+To include this plugin, add the option `--gui` to the command line:
+[source, bash]
+----
+./create_new_package.py --name blabla --gui
+----
+
+This will create an *Application* class in *gui.py* and to launch it, you just do:
+[source]
+----
+import {my_package}
+
+{my_package}.run()
+----
+
 == How to make change to the model package ?
 === Main Package
 Files in the *model_package* will be copied into your future package, keeping the same structure.

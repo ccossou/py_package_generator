@@ -4,7 +4,8 @@
 """
 Using a model package and the name of your future package, will create a minimal package structure to be used
 
-This model contain a gitlab-ci configuration, a gitignore, a setup.py, some utils functions not available by default, etc...
+This model contain a gitlab-ci configuration, a gitignore, a setup.py, some utils functions not available by default,
+etc...
 """
 
 import argparse
@@ -130,6 +131,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-n", "--name", help="Name of the future package (lowercase)", type=str, required=True)
 parser.add_argument("-i", "--ini", help="Add the ini_file plugin for configuration file into the package",
                     action='store_true')
+parser.add_argument("-g", "--gui", help="Add the GUI plugin into the package",
+                    action='store_true')
 args = parser.parse_args()
 
 assert sys.version_info >= minimum_version, "You must use Python >= {}.{}".format(*minimum_version)
@@ -149,3 +152,6 @@ create_new_package(ref_folder=reference_folder, package_name=package_name, packa
 
 if args.ini:
     add_plugin(plugin_folder="ini_file_plugin", package_name=package_name)
+
+if args.gui:
+    add_plugin(plugin_folder="gui_plugin", package_name=package_name)
