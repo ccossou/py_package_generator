@@ -4,7 +4,7 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
-def assertListDictEqual(input_list, ref_list):
+def assert_list_dict_equal(input_list, ref_list):
     """
     Assert if All the dicts in both lists are equal (comparing indexes to indexes)
 
@@ -16,10 +16,10 @@ def assertListDictEqual(input_list, ref_list):
     assert len(input_list) == len(ref_list), "List have different sizes"
 
     for (d1, d2) in zip(input_list, ref_list):
-        assertDictEqual(d1, d2)
+        assert_dict_equal(d1, d2)
 
 
-def assertDictEqual(input_dict, dict_ref):
+def assert_dict_equal(input_dict, dict_ref):
     """
     Assert if Dicts are equal. If not, display the differences
 
@@ -78,6 +78,7 @@ def compare_dict(input_dict, dict_ref, msg=None, prefix=None):
         for key in new_keys2:
             msg += "\t{}[{}] = {}\n".format(d2_prefix, key, dict_ref[key])
 
+    # Common keys
     for key in common_keys:
         value1 = input_dict[key]
         value2 = dict_ref[key]
@@ -88,12 +89,11 @@ def compare_dict(input_dict, dict_ref, msg=None, prefix=None):
             if not value_equal:
                 is_equal = False
             msg += tmp_msg
-        else:
-            if value1 != value2:
-                is_equal = False
-                msg += "Difference for:\n"
-                msg += "\t{}[{}] = {}\n".format(d1_prefix, key, value1)
-                msg += "\t{}[{}] = {}\n".format(d2_prefix, key, value2)
+        elif value1 != value2:
+            is_equal = False
+            msg += "Difference for:\n"
+            msg += "\t{}[{}] = {}\n".format(d1_prefix, key, value1)
+            msg += "\t{}[{}] = {}\n".format(d2_prefix, key, value2)
 
     return is_equal, msg
 
