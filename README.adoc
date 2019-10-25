@@ -103,6 +103,8 @@ import {my_package}
 {my_package}.run()
 ----
 
+To populate your graphical interface, you are expected to change the function *gui.Application.__create_widgets*
+
 == How to make change to the model package ?
 === Main Package
 Files in the *model_package* will be copied into your future package, keeping the same structure.
