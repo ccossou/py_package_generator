@@ -150,8 +150,11 @@ if not package_name[0].isalpha():
 
 create_new_package(ref_folder=reference_folder, package_name=package_name, package_tag=package_tag)
 
+if args.gui:
+    add_plugin(plugin_folder="gui_plugin", package_name=package_name)
+    args.ini = True  # Force the ini plugin if GUI (because it uses it)
+
 if args.ini:
     add_plugin(plugin_folder="ini_file_plugin", package_name=package_name)
 
-if args.gui:
-    add_plugin(plugin_folder="gui_plugin", package_name=package_name)
+

@@ -1,7 +1,7 @@
 import tkinter as tk
 
 from . import gui
-from . import version
+from . import utils
 
 import logging
 
@@ -13,7 +13,9 @@ def run():
     Run the main application
     """
 
+    utils.init_log()
+
     root = tk.Tk()
-    root.title("{my_package} v{}".format(version.__version__))
     app = gui.Application(master=root)
+
     app.mainloop()
