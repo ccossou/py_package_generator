@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Setup file for installing parallel pipeline
+Setup file
 """
 
 import io
