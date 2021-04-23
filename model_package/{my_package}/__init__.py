@@ -1,6 +1,6 @@
 import logging
-logging.getLogger("{my_package}").addHandler(logging.NullHandler())
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-from .version import __version__
+__version__ = '0.1.0'
 
 from . import utils
