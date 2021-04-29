@@ -1,8 +1,7 @@
 image: python:latest
 
 before_script:
-  - pip install -r requirements.txt
-  - python setup.py develop
+  - pip install -e .
 
 pytest:
   stage: test
