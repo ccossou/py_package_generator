@@ -1,4 +1,4 @@
-import collections
+import collections.abc
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -112,7 +112,7 @@ def update_dict(d, u):
     """
 
     for k, v in u.items():
-        if isinstance(v, collections.Mapping):
+        if isinstance(v, collections.abc.Mapping):
             d[k] = update_dict(d.get(k, {}), v)
         else:
             d[k] = v
