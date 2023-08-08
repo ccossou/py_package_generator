@@ -1,51 +1,39 @@
-= {my_package} Documentation
-:sectnums:
-:toc: left
-:toclevels: 4
-:encoding: utf-8
-:lang: en
-:numbered:
-:source-language: python
-:imagesdir:   doc
+# {my_package} Documentation
 
-== Introduction
+## Introduction
 
 
-=== How to install
+### How to install
 Without downloading the project, one can do:
-[source]
-----
+```python
 pip install git+URL
-----
+```
 (URL being the github repository front page)
 
 For developer that have the git repository, one can do:
-[source,bash]
-----
+
+```python
 pip install .
 pip install -e .
-----
+```
 
-=== How to use
 
-. First import the package:
-+
-[source, python]
-----
+### How to use
+
+First import the package:
+
+```python
 import {my_package}
-----
+```
 
-== Tools
+## Tools
+### init_log
 
-[[init_log]]
-=== init_log
-
-[source, python]
-----
+```python
 {my_package}.init_log(log="{my_package}.log", stdout_loglevel="INFO", file_loglevel="DEBUG")
-----
+```
 
-.parameters:
+parameters:
 * `log`: filename where to store logs. By default "{my_package}.log"
 * `stdout_loglevel`: log level for standard output (ERROR, WARNING, INFO, DEBUG)
 * `file_loglevel`: log level for log file (ERROR, WARNING, INFO, DEBUG)

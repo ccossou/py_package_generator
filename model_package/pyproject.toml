@@ -1,6 +1,49 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel",
-]
+requires = ["setuptools>=65", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "{my_package}"
+dynamic = ["version"]
+description = ""
+license = {file = "LICENSE.txt"}
+requires-python = ">=3.9"
+readme = "README.md"
+authors = [
+    {name = "Foo Bar", email = "foo@bar.com"},
+]
+dependencies = [
+    "pytest",
+    "setuptools",
+]
+classifiers = [
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3 :: Only',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+]
+
+[tool.setuptools]
+# ...
+# By default, include-package-data is true in pyproject.toml, so you do
+# NOT have to specify this line.
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "{my_package}.version.__version__"}
+
+[project.urls]
+homepage = "https://github.com/{my_package}/{my_package}"
+documentation = "https://{my_package}.readthedocs.io"
+source = "https://github.com/{my_package}/{my_package}"
+download = "https://pypi.org/project/{my_package}/#files"
+tracker = "https://github.com/{my_package}/{my_package}/issues"

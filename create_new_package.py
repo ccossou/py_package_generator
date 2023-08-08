@@ -92,6 +92,47 @@ def copy_with_replace(src, dst, str1, str2, merge=False):
         obj.write(s)
 
 
+def update_dependencies(src, dst):
+    """
+    Get the new dependencies in the plugin pyproject.toml and append them in the right section of the
+    already existing pyproject.toml file
+
+    In each plugin, the pyproject.toml must be a list of dependencies as if it was embedded in the rest of the
+    dependencies, with an extra line at the end:
+    ```
+        "tkinter",
+        "pyinstaller",
+
+    ```
+
+    :param src: Source file
+    :param dst: destination file
+    """
+
+    # Get the current version of the dst file
+    with open(dst, 'r') as obj:
+        current_lines = obj.readlines()
+
+    # Search for the line index of the first ']' after the dependency section start
+    dep_start = "dependencies = [\n"
+    dep_end = "]\n"
+
+    dep_idx_start = current_lines.index(dep_start)
+    dep_idx_end = current_lines.index(dep_end, dep_idx_start)
+
+    with open(src, 'r') as obj:
+        src_lines = obj.readlines()
+
+    # Insert new dependencies at the right position
+    # Reverse list so we don't need to change the index in the loop
+    for line in reversed(src_lines):
+        current_lines.insert(dep_idx_end, line)
+
+    # Overwrite the dst file with the updated collated string
+    with open(dst, 'w') as obj:
+        obj.write("".join(current_lines))
+
+
 def add_plugin(plugin_folder, package_name):
     """
     Add necessary files to add an .ini file reader into the future package
@@ -124,7 +165,10 @@ def add_plugin(plugin_folder, package_name):
             dst_fpath = fpath.replace(plugin_folder, dest_folder)
             dst_fpath = dst_fpath.replace(package_tag, package_name)
 
-            custom_copy(fpath, dst_fpath)
+            if "pyproject.toml" in fpath:
+                update_dependencies(fpath, dst_fpath)
+            else:
+                custom_copy(fpath, dst_fpath)
 
 
 parser = argparse.ArgumentParser()

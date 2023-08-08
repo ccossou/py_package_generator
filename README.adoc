@@ -14,6 +14,10 @@ The folder *model_package* contain a generic structure for a Python package, wit
 
 === Model Package info
 
+.Usefull resources:
+* https://setuptools.pypa.io/en/latest/userguide/datafiles.html[Setuptools doc] (setup.cfg and pyproject.toml correspondance can be found here)
+* https://packaging.python.org/en/latest/overview/[Official packaging doc]
+
 .The package is designed for:
 * Unit test with *pytest*
 * CI with *gitlab-ci*
@@ -134,29 +138,48 @@ For instance, here is one structure for *model_package*:
 [quote]
 ----
 model_package/
-├── <my_package>
-│   ├── __init__.py
-│   ├── utils.py
-│   └── version.py
+├── src
+│ └── <my_package>
+│    ├── __init__.py
+│    ├── utils.py
+│    └── version.py
 ├── .gitignore
 ├── .gitlab-ci.yml
-├── README.adoc
-├── requirements.txt
-└── setup.py
+├── README.md
+└── pyproject.toml
 ----
 
 Here is the structure of the *ini_file_plugin*:
 [quote]
 ----
 ini_file_plugin/
-├── <my_package>
-│   ├── config.py
-│   ├── configspec.ini
-│   └── __init__.py
-└── requirements.txt
+├── src
+│ └── <my_package>
+│    ├── config.py
+│    ├── configspec.ini
+│    └── __init__.py
+└── pyproject.toml
 ----
 
 .Plugin rules:
 * you don't need to add in the plugin structures files that have not changed compared to the model package
 * you can only add lines. You can't delete lines from the *model_package* via a plugin
 * When adding to a plugin a file that already exist in *model_package*, its lines will be added at the end of the corresponding original file
+* pyproject.toml is special, the plugin version of that file must only contain extra dependencies using the following syntax (note the extra line at the end):
++
+[source]
+----
+    "tkinter",
+    "pyinstaller",
+
+----
+
+== FAQ
+=== Dynamic version
+I couldn't use dynamic version until I moved "my_package" into a src directory. Before that, the dynamic version resulted in the following error:
+[source]
+----
+        File "/tmp/pip-build-env-qq3zkq0q/overlay/lib/python3.10/site-packages/setuptools/config/expand.py", line 203, in _find_spec
+          raise ModuleNotFoundError(module_name)
+      ModuleNotFoundError: toto
+----
