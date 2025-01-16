@@ -56,15 +56,17 @@ to ensure logging properly works
 Just run the script in its directory:
 [source, bash]
 ----
-./create_new_package.py --name "toto"
+python create_new_package.py --name "toto"
 ----
+
+NOTE: On Windows, you have to use
 
 The package will appear in a *generated* folder. Copy paste everything in it where you want to put your package (in a new Git repository for instance)
 
 For help on the script, type:
 [source, bash]
 ----
-./create_new_package.py -h
+python create_new_package.py -h
 ----
 
 [[plugin_list]]
@@ -75,7 +77,7 @@ Plugins are available. They are extra lines of code only needed when you want a 
 To include this plugin, add the option `--ini` to the command line:
 [source, bash]
 ----
-./create_new_package.py --name blabla --ini
+python create_new_package.py --name blabla --ini
 ----
 
 If chosen, will add *<my_package>/config.py* that contain the *get_config* function.
@@ -96,7 +98,7 @@ IMPORTANT: Note that the file *<my_package>/configspec.ini* contain the descript
 To include this plugin, add the option `--gui` to the command line:
 [source, bash]
 ----
-./create_new_package.py --name blabla --gui
+python create_new_package.py --name blabla --gui
 ----
 
 This will create an *Application* class in *gui.py* and to launch it, you just do:
