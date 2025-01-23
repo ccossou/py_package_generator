@@ -163,6 +163,7 @@ def init_log(log="{my_package}.log", stdout_loglevel="INFO", file_loglevel="DEBU
                         "level": file_loglevel,
                         "filename": log,
                         "mode": "w",  # Overwrite file if it exists
+                        'encoding': 'utf-8',
                     },
             },
         "loggers":
